@@ -1,6 +1,4 @@
-﻿
-
-namespace RealShop.Services.Exceptions;
+﻿namespace RealShop.Services.Exceptions;
 public class CustomException:Exception
 {
     public int StatusCode { get; set; }

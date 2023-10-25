@@ -1,10 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using RealShop.Domain.Entities;
+﻿using RealShop.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace RealShop.Data.Data;
 public class DataContext : DbContext
 {
-
     public DataContext(DbContextOptions<DataContext> options):base(options)
     {  
     }
@@ -14,7 +13,4 @@ public class DataContext : DbContext
     public DbSet<Orders> Orders { get; set; }
     public DbSet<OrderItems> OrderItems { get; set; }
     public DbSet<Categories> Categories { get; set; }
-
-
 }
-

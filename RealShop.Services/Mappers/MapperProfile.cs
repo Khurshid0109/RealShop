@@ -1,5 +1,4 @@
-﻿
-using AutoMapper;
+﻿using AutoMapper;
 using RealShop.Domain.Entities;
 using RealShop.Services.DTOs.Users;
 
@@ -13,4 +12,3 @@ public class MapperProfile:Profile
         CreateMap<Users,UserForCreationDto>().ReverseMap();
     }
 }
-

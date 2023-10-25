@@ -1,6 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
-using RealShop.Api.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 using RealShop.Services.DTOs.Users;
 using RealShop.Services.Interfaces;
 
@@ -18,48 +16,23 @@ namespace RealShop.Api.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetAllAsync() =>
-            Ok(new Responce
-            {
-                StatusCode = 200,
-                Message = "Success",
-                Data = await _service.RetriveAllAsync()
-            });
+            Ok(await _service.RetriveAllAsync());
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetByIdAsync(long? id) =>
-            Ok(new Responce
-            {
-                StatusCode = 200,
-                Message = "Success",
-                Data = await _service.RetriveByIdAsync(id)
-            });
+        public async Task<IActionResult> GetByIdAsync([FromRoute(Name = "id")]long id) =>
+            Ok(await _service.RetriveByIdAsync(id));
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(UserForCreationDto dto) =>
-            Ok(new Responce
-            {
-                StatusCode = 200,
-                Message = "Success",
-                Data = await _service.CreateAsync(dto)
-            });
+        public async Task<IActionResult> CreateAsync([FromBody] UserForCreationDto dto) =>
+            Ok(await _service.CreateAsync(dto));
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateAsync(UserForUpdateDto dto) =>
-            Ok(new Responce
-            {
-                StatusCode = 200,
-                Message = "Success",
-                Data = await _service.UpdateAsync(dto)
-            });
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateAsync([FromRoute(Name ="id")]long id,[FromBody]UserForUpdateDto dto) =>
+            Ok(await _service.ModifyAsync(id,dto));
 
 
-        [HttpDelete]
-        public async Task<IActionResult> DeleteAsync(long? id) =>
-            Ok(new Responce
-            {
-                StatusCode = 200,
-                Message = "Success",
-                Data = await _service.DeleteAsync(id)
-            });
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAsync([FromRoute(Name ="id")]long id) =>
+            Ok(await _service.DeleteAsync(id));
     }
 }

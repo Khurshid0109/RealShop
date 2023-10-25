@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using RealShop.Data.IRepositories;
 using RealShop.Domain.Entities;
+using RealShop.Data.IRepositories;
+using Microsoft.EntityFrameworkCore;
 using RealShop.Services.DTOs.Users;
 using RealShop.Services.Exceptions;
 using RealShop.Services.Interfaces;
@@ -9,60 +9,57 @@ using RealShop.Services.Interfaces;
 namespace RealShop.Services.Services;
 public class UserService : IUserService
 {
+    private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
-    private readonly IRepository<Users> _repository;
-    public UserService(IMapper mapper,IRepository<Users> repository )
-    {
-        _mapper = mapper;
-        _repository = repository;
-    }
-    public async Task<UserForResultDto> CreateAsync(UserForCreationDto? dto)
-    {
-        if (dto is null)
-            throw new CustomException(400, "Argument is null here!");
 
-        var user = await _repository.SelectAll().FirstOrDefaultAsync(u => u.Email == dto.Email);
+    public UserService(IUserRepository userRepository, IMapper mapper)
+    {
+        _userRepository = userRepository;
+        _mapper = mapper;
+    }
+
+    public async Task<UserForResultDto> CreateAsync(UserForCreationDto dto)
+    {
+        var user = await _userRepository.SelectAll()
+            .Where(u => u.Email.ToLower() == dto.Email.ToLower())
+            .FirstOrDefaultAsync();
 
         if (user is not null)
-            throw new CustomException(409, "User with this email is already exist!");
+            throw new CustomException(404, "User already exists!");
 
         var mapped = _mapper.Map<Users>(dto);
+        mapped.CreatedAt = DateTime.Now;
 
-        var result = await _repository.InsertAsync(mapped);
-        await _repository.SavechangesAsync();
-       
+        var result=_userRepository.InsertAsync(mapped);
+        await _userRepository.SavechangesAsync();
+
         return _mapper.Map<UserForResultDto>(result);
     }
 
-    public async Task<bool> DeleteAsync(long? id)
+    public async Task<bool> DeleteAsync(long id)
     {
-        if (id is null)
-            throw new CustomException(400, "Argument is null here!");
-
-        var user = await _repository.SelectByIdAsync(id);
+        var user = await _userRepository.SelectByIdAsync(id);
 
         if (user is null)
             throw new CustomException(404, "User is not found!");
 
-        await _repository.DeleteAsync(id);
-        await _repository.SavechangesAsync();
+        await _userRepository.DeleteAsync(id);
+        await _userRepository.SavechangesAsync();
         return true;
     }
 
     public async Task<IEnumerable<UserForResultDto>> RetriveAllAsync()
     {
-        var user= _repository.SelectAll().ToList();
-        var mapped = _mapper.Map<IEnumerable<UserForResultDto>>(user);
+        var users =  _userRepository.SelectAll();
 
-        return mapped;
+        return _mapper.Map<IEnumerable<UserForResultDto>>(users);
     }
 
-    public async Task<UserForResultDto> RetriveByIdAsync(long? id)
+    public async Task<UserForResultDto> RetriveByIdAsync(long id)
     {
-        if (id is null)
-            throw new CustomException(400, "Argument is null here!");
-
-        var user = await _repository.SelectByIdAsync(id);
+        var user = await _userRepository.SelectAll()
+            .Where(u => u.Id == id)
+            .FirstOrDefaultAsync();
 
         if (user is null)
             throw new CustomException(404, "User is not found!");
@@ -70,20 +67,21 @@ public class UserService : IUserService
         return _mapper.Map<UserForResultDto>(user);
     }
 
-    public async Task<UserForResultDto> UpdateAsync(UserForUpdateDto? dto)
+    public async Task<UserForResultDto> ModifyAsync(long id,UserForUpdateDto dto)
     {
-        if (dto is null)
-            throw new CustomException(404, "Argument is null here!");
-
-        var user = await _repository.SelectByIdAsync(dto.Id);
+        var user = await _userRepository.SelectAll()
+            .Where(u => u.Id == id)
+            .FirstOrDefaultAsync();
 
         if (user is null)
             throw new CustomException(404, "User is not found!");
 
-        var mapped = _mapper.Map<Users>(dto);
-        var result=await _repository.UpdateAsync(mapped);
-        await _repository.SavechangesAsync();
+        var mapped = _mapper.Map(dto, user);
+        user.UpdatedAt=DateTime.Now;
 
-        return _mapper.Map<UserForResultDto>(result);
+        await _userRepository.UpdateAsync(mapped);
+        await _userRepository.SavechangesAsync();
+
+        return _mapper.Map<UserForResultDto>(mapped);
     }
 }
