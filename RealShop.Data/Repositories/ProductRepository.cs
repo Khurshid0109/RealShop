@@ -4,7 +4,7 @@ using RealShop.Data.IRepositories;
 
 namespace RealShop.Data.Repositories;
 
-public class ProductRepository : Repository<Products>, IProductRepository
+public class ProductRepository : Repository<Product>, IProductRepository
 {
     public ProductRepository(DataContext context) : base(context)
     {

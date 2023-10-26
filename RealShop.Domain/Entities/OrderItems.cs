@@ -13,6 +13,6 @@ namespace RealShop.Domain.Entities
 
         //Relationship with Product
         public int ProductId { get; set; }
-        public Products Product { get; set; }
+        public Product Product { get; set; }
     }
 }

@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealShop.Api", "RealShop.Api\RealShop.Api.csproj", "{18B62B02-A106-4BEC-9189-54FC4F413667}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealShop.Api", "RealShop.Api\RealShop.Api.csproj", "{18B62B02-A106-4BEC-9189-54FC4F413667}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealShop.Data", "RealShop.Data\RealShop.Data.csproj", "{BCF8F0D7-EC83-41D4-ACBF-BED2FF4E086C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealShop.Data", "RealShop.Data\RealShop.Data.csproj", "{BCF8F0D7-EC83-41D4-ACBF-BED2FF4E086C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealShop.Domain", "RealShop.Domain\RealShop.Domain.csproj", "{1AE34DDE-4C43-4EF4-8018-9FB955942DAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealShop.Domain", "RealShop.Domain\RealShop.Domain.csproj", "{1AE34DDE-4C43-4EF4-8018-9FB955942DAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealShop.Services", "RealShop.Services\RealShop.Services.csproj", "{1DC4F92E-43CE-4373-B0E5-276FB1C1F8C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealShop.Services", "RealShop.Services\RealShop.Services.csproj", "{1DC4F92E-43CE-4373-B0E5-276FB1C1F8C0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scr", "scr", "{E9FB2844-0C01-4F98-A281-19FB5E32EC82}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +38,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{18B62B02-A106-4BEC-9189-54FC4F413667} = {E9FB2844-0C01-4F98-A281-19FB5E32EC82}
+		{BCF8F0D7-EC83-41D4-ACBF-BED2FF4E086C} = {E9FB2844-0C01-4F98-A281-19FB5E32EC82}
+		{1AE34DDE-4C43-4EF4-8018-9FB955942DAE} = {E9FB2844-0C01-4F98-A281-19FB5E32EC82}
+		{1DC4F92E-43CE-4373-B0E5-276FB1C1F8C0} = {E9FB2844-0C01-4F98-A281-19FB5E32EC82}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {66A12EDA-FFB1-4B87-A188-6780CC485E4D}

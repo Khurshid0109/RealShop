@@ -1,5 +1,5 @@
-﻿using RealShop.Domain.Commons;
-using RealShop.Domain.Enums;
+﻿using RealShop.Domain.Enums;
+using RealShop.Domain.Commons;
 
 namespace RealShop.Domain.Entities
 {
@@ -8,6 +8,6 @@ namespace RealShop.Domain.Entities
         public CategoryEnum Category { get; set; } 
 
         //Relationship with Product
-        public ICollection<Products> Products { get; set; }
+        public ICollection<Product> Products { get; set; }
     }
 }

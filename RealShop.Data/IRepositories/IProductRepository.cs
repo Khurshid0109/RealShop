@@ -2,6 +2,6 @@
 
 namespace RealShop.Data.IRepositories;
 
-public interface IProductRepository:IRepository<Products>
+public interface IProductRepository:IRepository<Product>
 {
 }
