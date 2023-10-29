@@ -3,9 +3,10 @@ using RealShop.Domain.Commons;
 
 namespace RealShop.Domain.Entities
 {
-    public class Categories:Auditable
+    public class Category:Auditable
     {
-        public CategoryEnum Category { get; set; } 
+        public CategoryEnum Categories { get; set; }
+        public string Image { get; set; }
 
         //Relationship with Product
         public ICollection<Product> Products { get; set; }

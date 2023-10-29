@@ -15,7 +15,7 @@ namespace RealShop.Api.Controllers.Users
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync([FromBody] UserForCreationDto dto) =>
+        public async Task<ActionResult<UserForResultDto>> CreateAsync([FromBody] UserForCreationDto dto) =>
           Ok(await _service.CreateAsync(dto));
 
         [HttpGet]

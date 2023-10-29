@@ -1,6 +1,6 @@
 ﻿using RealShop.Domain.Entities;
 
 namespace RealShop.Data.IRepositories;
-public interface ICategoryRepository:IRepository<Categories>
+public interface ICategoryRepository:IRepository<Category>
 {
 }
