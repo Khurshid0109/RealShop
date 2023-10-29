@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RealShop.Data.Data;
 
@@ -11,9 +12,11 @@ using RealShop.Data.Data;
 namespace RealShop.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231028041718_UserRoleAddedMigration")]
+    partial class UserRoleAddedMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,7 +25,7 @@ namespace RealShop.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("RealShop.Domain.Entities.Category", b =>
+            modelBuilder.Entity("RealShop.Domain.Entities.Categories", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -30,7 +33,7 @@ namespace RealShop.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<int>("Categories")
+                    b.Property<int>("Category")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
@@ -48,34 +51,7 @@ namespace RealShop.Data.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("RealShop.Domain.Entities.Order", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<long>("UsersId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("RealShop.Domain.Entities.OrderItem", b =>
+            modelBuilder.Entity("RealShop.Domain.Entities.OrderItems", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -116,6 +92,33 @@ namespace RealShop.Data.Migrations
                     b.ToTable("OrderItems");
                 });
 
+            modelBuilder.Entity("RealShop.Domain.Entities.Orders", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<long>("UsersId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("Orders");
+                });
+
             modelBuilder.Entity("RealShop.Domain.Entities.Product", b =>
                 {
                     b.Property<long>("Id")
@@ -129,10 +132,6 @@ namespace RealShop.Data.Migrations
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Color")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -165,7 +164,7 @@ namespace RealShop.Data.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("RealShop.Domain.Entities.User", b =>
+            modelBuilder.Entity("RealShop.Domain.Entities.Users", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -210,20 +209,9 @@ namespace RealShop.Data.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("RealShop.Domain.Entities.Order", b =>
+            modelBuilder.Entity("RealShop.Domain.Entities.OrderItems", b =>
                 {
-                    b.HasOne("RealShop.Domain.Entities.User", "Users")
-                        .WithMany("Orders")
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("RealShop.Domain.Entities.OrderItem", b =>
-                {
-                    b.HasOne("RealShop.Domain.Entities.Order", "Order")
+                    b.HasOne("RealShop.Domain.Entities.Orders", "Order")
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId1")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -240,9 +228,20 @@ namespace RealShop.Data.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("RealShop.Domain.Entities.Orders", b =>
+                {
+                    b.HasOne("RealShop.Domain.Entities.Users", "Users")
+                        .WithMany("Orders")
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Users");
+                });
+
             modelBuilder.Entity("RealShop.Domain.Entities.Product", b =>
                 {
-                    b.HasOne("RealShop.Domain.Entities.Category", "Categories")
+                    b.HasOne("RealShop.Domain.Entities.Categories", "Categories")
                         .WithMany("Products")
                         .HasForeignKey("CategoriesId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -251,12 +250,12 @@ namespace RealShop.Data.Migrations
                     b.Navigation("Categories");
                 });
 
-            modelBuilder.Entity("RealShop.Domain.Entities.Category", b =>
+            modelBuilder.Entity("RealShop.Domain.Entities.Categories", b =>
                 {
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("RealShop.Domain.Entities.Order", b =>
+            modelBuilder.Entity("RealShop.Domain.Entities.Orders", b =>
                 {
                     b.Navigation("OrderItems");
                 });
@@ -266,7 +265,7 @@ namespace RealShop.Data.Migrations
                     b.Navigation("OrderItems");
                 });
 
-            modelBuilder.Entity("RealShop.Domain.Entities.User", b =>
+            modelBuilder.Entity("RealShop.Domain.Entities.Users", b =>
                 {
                     b.Navigation("Orders");
                 });

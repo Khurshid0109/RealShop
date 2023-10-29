@@ -2,13 +2,13 @@
 
 namespace RealShop.Domain.Entities
 {
-    public class Orders:Auditable
+    public class Order:Auditable
     {
         //Relationship with User
         public int UserId { get; set; }
-        public Users Users { get; set; }
+        public User Users { get; set; }
 
         //Relationship with OrderItems
-        public ICollection<OrderItems> OrderItems { get; set; }
+        public ICollection<OrderItem> OrderItems { get; set; }
     }
 }

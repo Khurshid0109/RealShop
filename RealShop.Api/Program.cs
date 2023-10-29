@@ -1,10 +1,8 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using RealShop.Api.Extentions;
 using RealShop.Data.Data;
-using RealShop.Domain.IRepository;
-using RealShop.Domain.Repositories;
+using RealShop.Api.Extentions;
 using RealShop.Services.Mappers;
+using Microsoft.EntityFrameworkCore;
+using RealShop.Services.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +23,8 @@ builder.Services.AddDbContext<DataContext>(options =>
 });
 
 var app = builder.Build();
+
+WebEnvironmentHost.rootPath = Path.GetExtension("wwwroot");
  
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
