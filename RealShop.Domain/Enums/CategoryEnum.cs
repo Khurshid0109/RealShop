@@ -10,7 +10,7 @@ namespace RealShop.Domain.Enums
         furniture, 
         decor,
         healthCare,
-        household_items
+        household_items,
         media,
         pet_care,
         office_equipment

@@ -6,7 +6,7 @@ using RealShop.Services.DTOs.Users;
 using RealShop.Services.Exceptions;
 using RealShop.Services.Interfaces;
 
-namespace RealShop.Services.Services;
+namespace RealShop.Services.Services; 
 public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
@@ -27,7 +27,7 @@ public class UserService : IUserService
         if (user is not null)
             throw new CustomException(404, "User already exists!");
 
-        var mapped = _mapper.Map<Users>(dto);
+        var mapped = _mapper.Map<User>(dto);
         mapped.CreatedAt = DateTime.Now;
 
         var result=_userRepository.InsertAsync(mapped);

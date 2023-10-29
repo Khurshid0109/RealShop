@@ -8,13 +8,15 @@ namespace RealShop.Domain.Entities
         public string Description { get; set; } 
         public decimal Price { get; set; }  
         public int Quantity { get; set; }
-
+        public string Color { get; set; }
+        public string ImageUrl { get; set; }
         //Relationship with Category
+
         public int CategoryId { get; set; }
-        public Categories Categories { get; set; }
+        public Category Categories { get; set; }
 
 
         //Relationship with OrderItems
-        public ICollection<OrderItems> OrderItems { get; set; }
+        public ICollection<OrderItem> OrderItems { get; set; }
     }
 }

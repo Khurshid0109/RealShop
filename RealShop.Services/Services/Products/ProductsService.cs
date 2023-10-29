@@ -5,6 +5,9 @@ using RealShop.Services.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using RealShop.Services.DTOs.Products;
 using RealShop.Services.Interfaces.Products;
+using RealShop.Services.Helpers;
+using Microsoft.AspNetCore.Http;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace RealShop.Services.Services.Products;
 public class ProductsService : IProductService
@@ -22,6 +25,7 @@ public class ProductsService : IProductService
     {
         var mapped = _mapper.Map<Product>(dto);
         mapped.CreatedAt = DateTime.Now;
+        mapped.ImageUrl =  await UploadFile(dto.Image);
 
         var result =await _repository.InsertAsync(mapped);
         await _repository.SavechangesAsync();
@@ -47,7 +51,7 @@ public class ProductsService : IProductService
 
     public async Task<IEnumerable<ProductForResultDto>> RetriveAllAsync()
     {
-        var products = _repository.SelectAll();
+        var products =  _repository.SelectAll();
 
         return _mapper.Map<IEnumerable<ProductForResultDto>>(products);
     }
@@ -74,9 +78,29 @@ public class ProductsService : IProductService
 
         var mapped = _mapper.Map(dto, product);
         mapped.UpdatedAt = DateTime.Now;
+        mapped.ImageUrl = await UploadFile(dto.Image);
 
         await _repository.UpdateAsync(mapped);
 
         return _mapper.Map<ProductForResultDto>(mapped);
     }
+
+    public async Task<string> UploadFile(IFormFile file)
+    {
+        string uniqueFileName = "";
+
+        if (file != null && file.Length > 0)
+        {
+            string uploadsFolder = Path.Combine(WebEnvironmentHost.rootPath, "images");
+            uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+            string imageFilePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+            using (var fileStream = new FileStream(imageFilePath, FileMode.Create))
+            {
+               await file.CopyToAsync(fileStream);
+            }
+        }
+        return  uniqueFileName;
+    }
+
 }
