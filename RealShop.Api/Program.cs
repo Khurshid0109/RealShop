@@ -3,6 +3,7 @@ using RealShop.Api.Extentions;
 using RealShop.Services.Mappers;
 using Microsoft.EntityFrameworkCore;
 using RealShop.Services.Helpers;
+using RealShop.Api.MiddleWares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 
 //Registiration of services
 builder.Services.CustomExtention();
@@ -24,7 +26,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 var app = builder.Build();
 
-WebEnvironmentHost.rootPath = Path.GetExtension("wwwroot");
+WebEnvironmentHost.rootPath = Path.GetFullPath("wwwroot");
  
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -32,6 +34,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionHandlerMiddleWare>();
+app.UseStaticFiles();
 
 app.UseHttpsRedirection();
 
