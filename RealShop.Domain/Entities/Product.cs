@@ -14,9 +14,5 @@ namespace RealShop.Domain.Entities
         //Relationship with Category
 
         public CategoryEnum Categories { get; set; }
-
-
-        //Relationship with OrderItems
-        public ICollection<OrderItem> OrderItems { get; set; }
     }
 }

@@ -30,7 +30,7 @@ public class UserService : IUserService
         var mapped = _mapper.Map<User>(dto);
         mapped.CreatedAt = DateTime.Now;
 
-        var result=_userRepository.InsertAsync(mapped);
+        var result= await _userRepository.InsertAsync(mapped);
         await _userRepository.SavechangesAsync();
 
         return _mapper.Map<UserForResultDto>(result);

@@ -1,5 +1,4 @@
-﻿
-namespace RealShop.Domain.Commons;
+﻿namespace RealShop.Domain.Commons;
 
 public class Auditable
 {
@@ -7,4 +6,3 @@ public class Auditable
     public DateTime CreatedAt { get; set; } 
     public DateTime? UpdatedAt { get; set; } 
 }
-

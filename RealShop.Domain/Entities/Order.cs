@@ -5,10 +5,10 @@ namespace RealShop.Domain.Entities
     public class Order:Auditable
     {
         //Relationship with User
-        public int UserId { get; set; }
-        public User Users { get; set; }
-
+        public long UserId { get; set; }
+        public User User { get; set; }
+                                            
         //Relationship with OrderItems
-        public ICollection<OrderItem> OrderItems { get; set; }
+        public ICollection<Product> Products { get; set; }
     }
 }
