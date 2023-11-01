@@ -15,7 +15,7 @@ namespace RealShop.Api.Controllers.Orders
             _service = service;
         }
 
-        [HttpPut]
+        [HttpPost]
         public async Task<IActionResult> InsertAsync([FromBody] OrdersForCreationDto dto) =>
             Ok(await _service.CreateAsync(dto));
 

@@ -5,9 +5,7 @@ using RealShop.Services.Interfaces;
 using RealShop.Services.Services.Orders;
 using RealShop.Services.Services.Products;
 using RealShop.Services.Interfaces.Orders;
-using RealShop.Services.Services.OrderItems;
 using RealShop.Services.Interfaces.Products;
-using RealShop.Services.Interfaces.OrderItems;
 
 namespace RealShop.Api.Extentions;
 public static class ServiceExtentions
@@ -19,9 +17,6 @@ public static class ServiceExtentions
 
         service.AddScoped<IOrdersService,OrdersService>();
         service.AddScoped<IOrdersRepository, OrdersRepository>();
-
-        service.AddScoped<IOrderItemsService,OrderItemsService>();
-        service.AddScoped<IOrderItemsRepository, OrderItemsRepository>();
 
         service.AddScoped<IProductService,ProductsService>();
         service.AddScoped<IProductRepository, ProductRepository>();

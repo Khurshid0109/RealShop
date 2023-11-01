@@ -1,8 +1,7 @@
-﻿using RealShop.Services.DTOs.OrderItems;
-
+﻿
 namespace RealShop.Services.DTOs.Orders;
 public class OrdersForCreationDto
 {
-    public int UserId { get; set; }
-    public ICollection<OrderItemsForCreation> OrderItems { get; set; }
+    public long UserId { get; set; }
+    public ICollection<OrderProductDto> orderItems { get; set; }
 }

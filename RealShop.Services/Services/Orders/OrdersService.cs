@@ -11,19 +11,29 @@ public class OrdersService : IOrdersService
 {
     private readonly IMapper _mapper;
     private readonly IOrdersRepository _repository;
+    private readonly IUserRepository _userRepository;
 
-    public OrdersService(IMapper mapper, IOrdersRepository repository)
+    public OrdersService(IMapper mapper, IOrdersRepository repository, IUserRepository userRepository)
     {
         _mapper = mapper;
         _repository = repository;
+        _userRepository = userRepository;
     }
 
     public async Task<OrdersForResultDto> CreateAsync(OrdersForCreationDto dto)
     {
+        var user = await _userRepository.SelectAll()
+            .Where(u => u.Id == dto.UserId)
+            .FirstOrDefaultAsync();
+
+        if (user is null)
+            throw new CustomException(404, "User is not found!");
+
         var mapped = _mapper.Map<Order>(dto);
         mapped.CreatedAt = DateTime.Now;
 
         var order = await _repository.InsertAsync(mapped);
+
         await _repository.SavechangesAsync();
 
         return _mapper.Map<OrdersForResultDto>(order);
@@ -62,8 +72,7 @@ public class OrdersService : IOrdersService
 
     public async Task<IEnumerable<OrdersForResultDto>> RetriveAllAsync()
     {
-        var orders =  _repository.SelectAll()
-             .Include(o => o.OrderItems);
+        var orders = _repository.SelectAll();
 
         return _mapper.Map<IEnumerable<OrdersForResultDto>>(orders);
     }
