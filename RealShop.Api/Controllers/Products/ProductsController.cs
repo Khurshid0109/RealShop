@@ -15,8 +15,9 @@ namespace RealShop.Api.Controllers.Products
             _service = service;
         }
 
+       
         [HttpPost]
-        public async Task<IActionResult> InsertAsync([FromBody] ProductForCreationDto dto) =>
+        public async Task<IActionResult> InsertAsync([FromForm] ProductForCreationDto dto) =>
             Ok(await _service.CreateAsync(dto));
 
         [HttpGet]
@@ -24,15 +25,15 @@ namespace RealShop.Api.Controllers.Products
             Ok(await _service.RetriveAllAsync());
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> SelectByIdAsync([FromRoute(Name = "id")] long id) =>
+        public async Task<IActionResult> SelectByIdAsync([FromRoute] long id) =>
             Ok(await _service.RetriveByIdAsync(id));
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAsync([FromRoute(Name ="id")] long id, [FromBody] ProductForUpdateDto dto)=>
+        public async Task<IActionResult> UpdateAsync([FromRoute] long id, [FromForm] ProductForUpdateDto dto)=>
             Ok(await _service.ModifyAsync(id, dto));
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync([FromRoute(Name = "id")] long id) =>
+        public async Task<IActionResult> DeleteAsync([FromRoute] long id) =>
             Ok(await _service.DeleteAsync(id));
 
     }

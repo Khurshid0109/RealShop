@@ -8,6 +8,7 @@ using RealShop.Services.Interfaces.Products;
 using RealShop.Services.Helpers;
 using Microsoft.AspNetCore.Http;
 using static System.Net.Mime.MediaTypeNames;
+using RealShop.Domain.Enums;
 
 namespace RealShop.Services.Services.Products;
 public class ProductsService : IProductService
@@ -25,7 +26,7 @@ public class ProductsService : IProductService
     {
         var mapped = _mapper.Map<Product>(dto);
         mapped.CreatedAt = DateTime.Now;
-        mapped.ImageUrl =  await UploadFile(dto.Image);
+        mapped.ImageUrl =  await UploadFile(dto.ImageUrl); 
 
         var result =await _repository.InsertAsync(mapped);
         await _repository.SavechangesAsync();
@@ -70,7 +71,7 @@ public class ProductsService : IProductService
     public async Task<ProductForResultDto> ModifyAsync(long id,ProductForUpdateDto dto)
     {
         var product = await _repository.SelectAll()
-            .Where(p => p.Id == dto.Id)
+            .Where(p => p.Id == id)
             .FirstOrDefaultAsync();
 
         if (product is null)
@@ -78,9 +79,10 @@ public class ProductsService : IProductService
 
         var mapped = _mapper.Map(dto, product);
         mapped.UpdatedAt = DateTime.Now;
-        mapped.ImageUrl = await UploadFile(dto.Image);
+        mapped.ImageUrl = await UploadFile(dto.ImageUrl);
 
         await _repository.UpdateAsync(mapped);
+        await _repository.SavechangesAsync();
 
         return _mapper.Map<ProductForResultDto>(mapped);
     }

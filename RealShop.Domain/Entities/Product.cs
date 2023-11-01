@@ -1,4 +1,5 @@
 ﻿using RealShop.Domain.Commons;
+using RealShop.Domain.Enums;
 
 namespace RealShop.Domain.Entities
 {
@@ -12,8 +13,7 @@ namespace RealShop.Domain.Entities
         public string ImageUrl { get; set; }
         //Relationship with Category
 
-        public int CategoryId { get; set; }
-        public Category Categories { get; set; }
+        public CategoryEnum Categories { get; set; }
 
 
         //Relationship with OrderItems

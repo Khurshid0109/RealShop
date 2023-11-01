@@ -26,7 +26,6 @@ public static class ServiceExtentions
         service.AddScoped<IProductService,ProductsService>();
         service.AddScoped<IProductRepository, ProductRepository>();
 
-        service.AddScoped<ICategoryRepository, CategoryRepository>();
         
         service.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         
