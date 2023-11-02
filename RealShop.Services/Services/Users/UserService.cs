@@ -84,4 +84,16 @@ public class UserService : IUserService
 
         return _mapper.Map<UserForResultDto>(mapped);
     }
+
+    public async Task<UserForResultDto> RetriveByEmailAsync(string email)
+    {
+        var user = await _userRepository.SelectAll()
+            .Where(u => u.Email == email)
+            .FirstOrDefaultAsync();
+
+        if (user is null)
+            throw new CustomException(404, "User is not found!");
+
+        return _mapper.Map<UserForResultDto>(user);
+    }
 }

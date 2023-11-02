@@ -18,6 +18,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.CustomExtention();
 builder.Services.AddAutoMapper(typeof(MapperProfile));
 
+//for Jwt authentication
+builder.Services.AddJwtService(builder.Configuration);
+//for changing swagger to enter a token
+builder.Services.AddSwaggerService();
 //Database connection
 builder.Services.AddDbContext<DataContext>(options =>
 {

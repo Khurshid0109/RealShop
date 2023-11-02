@@ -23,6 +23,7 @@ public class MapperProfile:Profile
         CreateMap<Order,OrdersForCreationDto>().ReverseMap();
         CreateMap<Order, OrdersForResultDto>().ReverseMap();
         CreateMap<Order,OrdersForUpdateDto>().ReverseMap();
+        CreateMap<Order,OrderProductDto>().ReverseMap();    
        
     }
 }

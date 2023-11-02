@@ -5,6 +5,8 @@ using RealShop.Services.Exceptions;
 using RealShop.Services.DTOs.Orders;
 using Microsoft.EntityFrameworkCore;
 using RealShop.Services.Interfaces.Orders;
+using RealShop.Data.Repositories;
+using System.Linq;
 
 namespace RealShop.Services.Services.Orders;
 public class OrdersService : IOrdersService
@@ -12,12 +14,14 @@ public class OrdersService : IOrdersService
     private readonly IMapper _mapper;
     private readonly IOrdersRepository _repository;
     private readonly IUserRepository _userRepository;
+    private readonly IProductRepository _productRepository;
 
-    public OrdersService(IMapper mapper, IOrdersRepository repository, IUserRepository userRepository)
+    public OrdersService(IMapper mapper, IOrdersRepository repository, IUserRepository userRepository, IProductRepository productRepository)
     {
         _mapper = mapper;
         _repository = repository;
         _userRepository = userRepository;
+        _productRepository = productRepository;
     }
 
     public async Task<OrdersForResultDto> CreateAsync(OrdersForCreationDto dto)
@@ -32,6 +36,12 @@ public class OrdersService : IOrdersService
         var mapped = _mapper.Map<Order>(dto);
         mapped.CreatedAt = DateTime.Now;
 
+        var productIds = dto.orderItems.Select(item => item.Id).ToList();
+
+        mapped.Products = await _productRepository.SelectAll()
+            .Where(product => productIds.Contains((product.Id)))
+            .ToListAsync();
+       
         var order = await _repository.InsertAsync(mapped);
 
         await _repository.SavechangesAsync();
