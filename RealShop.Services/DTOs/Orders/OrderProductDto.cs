@@ -2,5 +2,5 @@
 public class OrderProductDto
 {
     public long Id { get; set; }
-    public int Quantity { get; set; }
+    public int Quantity { get; set; } = 1;
 }

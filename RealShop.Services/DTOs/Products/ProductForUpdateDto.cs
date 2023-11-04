@@ -1,6 +1,5 @@
-﻿
+﻿using RealShop.Domain.Enums;
 using Microsoft.AspNetCore.Http;
-using RealShop.Domain.Enums;
 
 namespace RealShop.Services.DTOs.Products;
 public class ProductForUpdateDto

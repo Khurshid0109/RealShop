@@ -14,7 +14,7 @@ namespace RealShop.Services.DTOs.Users
         public string LastName { get; set; }
 
         [Required]
-        [EmailAddress]
+        [EmailValidation(ErrorMessage = "Please enter a valid email address!")]
         public string Email { get; set; }
 
         [Required]
